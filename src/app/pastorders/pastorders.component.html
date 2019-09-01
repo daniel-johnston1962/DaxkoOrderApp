@@ -1,0 +1,38 @@
+
+<div class="caption is-size-3">
+    Past Orders
+</div>
+<div class="span_table">
+  <div class="header-row row">
+    <span class="cell">Order ID</span>
+    <span class="cell">Total Items</span>
+    <span class="cell">Total Order Price</span>
+    <span class="cell">Orders</span>
+  </div>
+  <div class="row" *ngFor="let pastorder of pastorders">
+  <!-- <input type="radio" name="expand"> -->
+    <span style="text-align:center" class="cell" data-label="id">{{pastorder.id}}</span>
+    <span class="cell" data-label="totalNumOfItems">{{pastorder.totalNumOfItems}}</span>
+    <span class="cell" data-label="orderTotal">{{pastorder.orderTotal | currency}}</span>
+    <span class="cell" data-label="Orders">
+
+      <div class="span_table">
+        <div class="header-row row">
+          <span style="width: 35%;" class="cell">Name</span>
+          <span style="width: 25%;" class="cell">Item Price</span>
+          <span style="width: 15%;" class="cell">Quantity</span>
+          <span style="width: 25%;" class="cell">Total Item Price</span>
+        </div>
+        <div class="row" *ngFor="let pastOrderItem of pastorder.pastOrderItems">
+          <!-- <input type="radio" name="expand"> -->
+          <span style="width: 35%;" class="cell" data-label="name">{{pastOrderItem.name}}</span>
+          <span style="width: 25%;" class="cell" data-label="itemPrice">{{pastOrderItem.itemPrice | currency}}</span>
+          <span style="width: 15%;" class="cell" data-label="quantity">{{pastOrderItem.quantity}}</span>
+          <span style="width: 25%;" class="cell" data-label="totalItemPrice">{{pastOrderItem.totalItemPrice | currency}}</span>
+        </div>
+      </div>
+
+    </span>
+  </div>
+
+</div>

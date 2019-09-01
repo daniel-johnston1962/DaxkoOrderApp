@@ -1,0 +1,63 @@
+<div class="caption is-size-3">
+    Items Available To Purchase
+</div>
+<div style="margin:0px 150px 10px 150px;">
+	<div class="span_table">
+	  <div class="header-row row">
+		<span class="cell" style="visibility: hidden">ID</span>
+		<span class="cell">Description</span>
+		<span class="cell">Price</span>
+		<span class="cell">Quantity</span>
+		<span class="cell"></span>
+	  </div>
+ 	  <div class="row" *ngFor="let item of items">
+ 	  <!-- <input type="radio" name="expand"> -->
+ 		<span style="width: 0%;visibility: hidden" class="cell" data-label="itemID">{{item.itemID}}</span>
+        <span style="width: 35%;" class="cell" data-label="name">{{item.name}}</span>
+		<span style="width: 20%;" class="cell" data-label="price">{{item.price | currency}}</span>
+		<span style="width: 35%;" class="cell"><input class="input" type="text" value="1" (input)="quantity=$event.target.value" #qty></span>
+		<span style="width: 10%;" class="cell"><button type="button" class="button is-light" (click)="addToShoppingCart(item, quantity); qty.value='1'; quantity='1';">Add to Order</button></span> 
+	  </div>
+	</div> 
+</div>
+
+<div *ngIf="isHidden">
+	<div class="caption is-size-3">
+		Items To Order
+	</div>
+	<div style="margin:0px 150px 10px 150px;">
+		<div class="span_table">
+		  <div class="header-row row">
+			<span class="cell">Item</span>
+			<span class="cell">Quantity</span>
+			<span class="cell">Price</span>
+			<span class="cell">Total</span>
+		  </div>
+		  <div class="row" *ngFor="let sc of ShoppingCartArray; let i = index">
+		  <!-- <input type="radio" name="expand"> -->
+			<span style="width: 40%;" class="cell" data-label="scname">{{sc.name}}</span>
+			<span style="width: 20%;" class="cell" data-label="scquantity">{{sc.quantity}}</span>
+			<span style="width: 20%;" class="cell" data-label="scprice">{{sc.price | currency}}</span>
+			<span style="width: 20%;" class="cell" data-label="sctotalprice">{{sc.totalprice | currency}}</span>
+		  </div>
+        </div>
+        <button type="button" style="margin:5px 0px 0px 0px" class="button is-light" (click)="saveShoppingCart()">Submit Order</button>
+	</div>
+</div>
+
+<div class="modal" [ngClass]="{ 'is-active' : isModalActive }">
+	<div class="modal-background" (click)="toggleModal()"></div> 
+	<div class="modal-card">  
+	<header class="modal-card-head"> 
+		<p class="modal-card-title">Order Saved</p>  
+		<button class="delete" aria-label="close" (click)="toggleModal()"></button> 
+	</header>
+	<section class="modal-card-body has-text-centered"> 
+		<p>Thank you for your order and email has been sent with details of your order.</p> 
+		<p>Your order number is {{ordernumber}}</p> 
+	</section>  
+	<footer class="modal-card-foot">
+		<button class="button" (click)="toggleModal()">Cancel</button>
+	</footer>
+	</div>
+</div> 
