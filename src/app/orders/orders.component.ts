@@ -55,15 +55,28 @@ export class OrdersComponent implements OnInit {
 
     if (quantity == null) quantity = 1;
 
-    let apiAddress: string = "v1/Orders/Item/" + item.itemID;
-    this.repository.getData(apiAddress)
-      .subscribe(res => {
-        this.UpdateShoppingCart(res as OrderItem, quantity);
-      },
-      (error) => {
-        this.errorHandler.handleError(error);
-        this.errorMessage = this.errorHandler.errorMessage;
-      })
+    if (!this.ItemExistInCart(item)) {
+
+      let apiAddress: string = "v1/Orders/Item/" + item.itemID;
+      this.repository.getData(apiAddress)
+        .subscribe(res => {
+          this.UpdateShoppingCart(res as OrderItem, quantity);
+        },
+        (error) => {
+          this.errorHandler.handleError(error);
+          this.errorMessage = this.errorHandler.errorMessage;
+        })
+    }
+    else {
+      
+      var index = this.ShoppingCartArray.findIndex(x => x.itemID == item.itemID)
+      var q = this.ShoppingCartArray[index].quantity;
+      this.ShoppingCartArray[index].quantity = +quantity + +q; 
+    }
+  }
+
+  private ItemExistInCart(item: OrderItem):boolean {
+    return this.ShoppingCartArray.some(x => x.itemID === item.itemID);
   }
 
   private UpdateShoppingCart(item, quantity){
