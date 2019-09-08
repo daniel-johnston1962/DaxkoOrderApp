@@ -71,7 +71,17 @@ export class OrdersComponent implements OnInit {
       
       var index = this.ShoppingCartArray.findIndex(x => x.itemID == item.itemID)
       var q = this.ShoppingCartArray[index].quantity;
-      this.ShoppingCartArray[index].quantity = +quantity + +q; 
+      this.ShoppingCartArray[index].quantity = +quantity + +q;
+
+      let apiAddress: string = "v1/Orders/Item/" + item.itemID;
+      this.repository.getData(apiAddress)
+        .subscribe(res => {
+          this.ShoppingCartArray[index].totalprice = this.ShoppingCartArray[index].quantity * (res as OrderItem).price;
+        },
+        (error) => {
+          this.errorHandler.handleError(error);
+          this.errorMessage = this.errorHandler.errorMessage;
+        })  
     }
   }
 
@@ -109,6 +119,13 @@ export class OrdersComponent implements OnInit {
       })
       
     this.ShoppingCartArray = [];
+  }
+
+  public removeFromShoppingCart(item: OrderItem) {
+    if (this.ItemExistInCart(item)) {
+      var index = this.ShoppingCartArray.findIndex(x => x.itemID === item.itemID);
+      this.ShoppingCartArray.splice(index, 1);
+    }
   }
 
   toggleModal() {
