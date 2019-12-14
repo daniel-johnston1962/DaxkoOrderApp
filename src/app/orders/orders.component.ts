@@ -2,10 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { RepositoryService } from '../shared/services/repository.service';
 import { ErrorHandlerService } from '../shared/services/error-handler.service';
 
-export interface OrderItem {
-  itemID: number,
-  name: string,
-  price: number
+export class OrderItemResult {
+  orderItems: OrderItem[];
+}
+
+export class OrderItem {
+  itemID: number;
+  name: string;
+  price: number;
 }
 
 export class ShoppingCart {
@@ -23,7 +27,7 @@ export class ShoppingCart {
 })
 
 export class OrdersComponent implements OnInit {
-  public items: OrderItem[];
+  public items: OrderItemResult; //OrderItem[];
   private ShoppingCartArray: Array<ShoppingCart> = [];
   isModalActive: boolean = false;
   isHidden: boolean = false;
@@ -37,18 +41,20 @@ export class OrdersComponent implements OnInit {
   }
 
 
-  public getAllOrderItems(){
+  public async getAllOrderItems(){
     let apiAddress: string = "v1/Orders/Items";
-    this.repository.getData(apiAddress)
-      .subscribe(res => {
-        this.items = res as OrderItem[];
-      },
-      (error) => {
-        this.errorHandler.handleError(error);
-        this.errorMessage = this.errorHandler.errorMessage;
-      })
-  }
 
+    await this.repository
+              .getDataAsync<OrderItemResult>(apiAddress)
+              .then(res => {
+                this.items = res;
+              })
+              .catch(error => {
+                this.errorHandler.handleError(error);
+                this.errorMessage = this.errorHandler.errorMessage;
+              });
+
+  }
 
   public async addToShoppingCart(item: OrderItem, quantity: number){
     this.isHidden = true;

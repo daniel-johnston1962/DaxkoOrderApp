@@ -6,10 +6,10 @@ export class PastOrderResult {
   pastorders: PastOrders[];
 }
 
-export interface PastOrders {
-  id: number,
-  totalNumOfItems: number,
-  orderTotal: number
+export class PastOrders {
+  id: number;
+  totalNumOfItems: number;
+  orderTotal: number;
 }
 
 export interface pastOrderItems {
@@ -25,7 +25,7 @@ export interface pastOrderItems {
   styleUrls: ['./pastorders.component.css']
 })
 export class PastordersComponent implements OnInit {
-  public pastorders: PastOrders[];
+  public pastorders: PastOrderResult;
   public errorMessage: string = '';
 
   constructor( private repository: RepositoryService, private errorHandler: ErrorHandlerService ) { }
@@ -40,7 +40,7 @@ export class PastordersComponent implements OnInit {
     await this.repository
               .getDataAsync<PastOrderResult>(apiAddress)
               .then(res => {
-                this.pastorders = res.pastorders;
+                this.pastorders = res;
               })
               .catch(error => {
                 this.errorHandler.handleError(error);
