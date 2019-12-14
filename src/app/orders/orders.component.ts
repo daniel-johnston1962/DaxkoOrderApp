@@ -27,7 +27,7 @@ export class ShoppingCart {
 })
 
 export class OrdersComponent implements OnInit {
-  public items: OrderItemResult; //OrderItem[];
+  public items: OrderItemResult;
   private ShoppingCartArray: Array<ShoppingCart> = [];
   isModalActive: boolean = false;
   isHidden: boolean = false;
