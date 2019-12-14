@@ -50,7 +50,7 @@ export class OrdersComponent implements OnInit {
   }
 
 
-  public addToShoppingCart(item: OrderItem, quantity: number){
+  public async addToShoppingCart(item: OrderItem, quantity: number){
     this.isHidden = true;
 
     if (quantity == null) quantity = 1;
@@ -58,14 +58,17 @@ export class OrdersComponent implements OnInit {
     if (!this.ItemExistInCart(item)) {
 
       let apiAddress: string = "v1/Orders/Item/" + item.itemID;
-      this.repository.getData(apiAddress)
-        .subscribe(res => {
-          this.UpdateShoppingCart(res as OrderItem, quantity);
-        },
-        (error) => {
-          this.errorHandler.handleError(error);
-          this.errorMessage = this.errorHandler.errorMessage;
-        })
+
+      await this.repository
+              .getDataAsync<OrderItem>(apiAddress)
+              .then(res => {
+                this.UpdateShoppingCart(res, quantity)
+              })
+              .catch(error => {
+                this.errorHandler.handleError(error);
+                this.errorMessage = this.errorHandler.errorMessage;
+              });
+
     }
     else {
       
@@ -74,14 +77,17 @@ export class OrdersComponent implements OnInit {
       this.ShoppingCartArray[index].quantity = +quantity + +q;
 
       let apiAddress: string = "v1/Orders/Item/" + item.itemID;
-      this.repository.getData(apiAddress)
-        .subscribe(res => {
-          this.ShoppingCartArray[index].totalprice = this.ShoppingCartArray[index].quantity * (res as OrderItem).price;
-        },
-        (error) => {
-          this.errorHandler.handleError(error);
-          this.errorMessage = this.errorHandler.errorMessage;
-        })  
+
+      await this.repository
+              .getDataAsync<OrderItem>(apiAddress)
+              .then(res => {
+                this.ShoppingCartArray[index].totalprice = this.ShoppingCartArray[index].quantity * res.price;
+              })
+              .catch(error => {
+                this.errorHandler.handleError(error);
+                this.errorMessage = this.errorHandler.errorMessage;
+              });
+
     }
   }
 
@@ -102,21 +108,23 @@ export class OrdersComponent implements OnInit {
     this.ShoppingCartArray.push(shippingorder);
   }
 
-  public saveShoppingCart(){
+  public async saveShoppingCart(){
     this.isHidden = false;
     this.isModalActive = true;
 
     var cart = this.ShoppingCartArray.map(x => ({ itemid: x.itemID, quantity: x.quantity }));
 
     let apiAddress: string = "v1/Orders/Order";
-    this.repository.create(apiAddress, JSON.stringify(cart))
-      .subscribe(res => {
-        this.ordernumber = res as number;
-      },
-      (error) => {
-        this.errorHandler.handleError(error);
-        this.errorMessage = this.errorHandler.errorMessage;
-      })
+    
+    await this.repository
+              .createAsync<OrderItem>(apiAddress, JSON.stringify(cart))
+              .then(res => {
+                this.ordernumber = res as number;
+              })
+              .catch(error => {
+                this.errorHandler.handleError(error);
+                this.errorMessage = this.errorHandler.errorMessage;
+              });
       
     this.ShoppingCartArray = [];
   }

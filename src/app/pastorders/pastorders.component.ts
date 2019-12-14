@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { RepositoryService } from '../shared/services/repository.service';
 import { ErrorHandlerService } from '../shared/services/error-handler.service';
 
+export class PastOrderResult {
+  pastorders: PastOrders[];
+}
+
 export interface PastOrders {
   id: number,
   totalNumOfItems: number,
@@ -30,15 +34,18 @@ export class PastordersComponent implements OnInit {
     this.getAllPastOrders(); 
   } 
 
-   public getAllPastOrders() {
+   public async getAllPastOrders() {
     let apiAddress: string = "v1/Orders/PastOrders";
-    this.repository.getData(apiAddress)
-      .subscribe(res => {
-        this.pastorders = res as PastOrders[];
-      },
-      (error) => {
-        this.errorHandler.handleError(error);
-        this.errorMessage = this.errorHandler.errorMessage;
-      }) 
+
+    await this.repository
+              .getDataAsync<PastOrderResult>(apiAddress)
+              .then(res => {
+                this.pastorders = res.pastorders;
+              })
+              .catch(error => {
+                this.errorHandler.handleError(error);
+                this.errorMessage = this.errorHandler.errorMessage;
+              });
+
   } 
 }
