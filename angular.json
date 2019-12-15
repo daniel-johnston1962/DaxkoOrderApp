@@ -20,7 +20,8 @@
             "tsConfig": "tsconfig.app.json",
             "aot": false,
             "assets": [
-              "src/favicon.ico",
+              "img/daxko_header_white.png",
+              "img/daxko_icon.ico",
               "src/assets"
             ],
             "styles": [
@@ -85,7 +86,8 @@
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
             "assets": [
-              "src/favicon.ico",
+              "img/daxko_header_white.png",
+              "img/daxko_icon.ico",
               "src/assets"
             ],
             "styles": [

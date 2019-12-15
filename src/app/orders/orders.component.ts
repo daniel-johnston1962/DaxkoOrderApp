@@ -139,6 +139,10 @@ export class OrdersComponent implements OnInit {
     if (this.ItemExistInCart(item)) {
       var index = this.ShoppingCartArray.findIndex(x => x.itemID === item.itemID);
       this.ShoppingCartArray.splice(index, 1);
+
+      if (this.ShoppingCartArray.length === 0) {
+        this.isHidden = false;
+      };
     }
   }
 
