@@ -22,6 +22,7 @@
             "assets": [
               "img/daxko_header_white.png",
               "img/daxko_icon.ico",
+              "img/daxko_icon.png",
               "src/assets"
             ],
             "styles": [
@@ -88,6 +89,7 @@
             "assets": [
               "img/daxko_header_white.png",
               "img/daxko_icon.ico",
+              "img/daxko_icon.png",
               "src/assets"
             ],
             "styles": [
