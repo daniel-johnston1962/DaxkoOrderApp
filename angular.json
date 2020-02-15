@@ -20,10 +20,10 @@
             "tsConfig": "tsconfig.app.json",
             "aot": false,
             "assets": [
-              "img/daxko_header_white.png",
-              "img/daxko_icon.ico",
-              "img/daxko_icon.png",
-              "src/assets"
+              "src/assets",
+              "src/assets/img/daxko_header_white.png",
+              "src/assets/img/daxko_icon.ico",
+              "src/assets/img/daxko_icon.png"
             ],
             "styles": [
               "src/styles.css"
@@ -87,10 +87,10 @@
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
             "assets": [
-              "img/daxko_header_white.png",
-              "img/daxko_icon.ico",
-              "img/daxko_icon.png",
-              "src/assets"
+              "src/assets",
+              "src/assets/img/daxko_header_white.png",
+              "src/assets/img/daxko_icon.ico",
+              "src/assets/img/daxko_icon.png"
             ],
             "styles": [
               "src/styles.css"
