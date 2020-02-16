@@ -28,11 +28,12 @@ export class ShoppingCart {
 
 export class OrdersComponent implements OnInit {
   public items: OrderItemResult;
-  private ShoppingCartArray: Array<ShoppingCart> = [];
+  public ShoppingCartArray: Array<ShoppingCart> = [];
   isModalActive: boolean = false;
   isHidden: boolean = false;
   ordernumber: number;
   public errorMessage: string = '';
+  quantity: number;
 
   constructor(private repository: RepositoryService, private errorHandler: ErrorHandlerService) { }
 
@@ -59,8 +60,10 @@ export class OrdersComponent implements OnInit {
   public async addToShoppingCart(item: OrderItem, quantity: number){
     this.isHidden = true;
 
-    if (quantity == null) quantity = 1;
-
+    if (quantity === null || quantity == undefined ) {
+      quantity = 1;
+    }
+    
     if (!this.ItemExistInCart(item)) {
 
       let apiAddress: string = "v1/Orders/Item/" + item.itemID;
@@ -68,7 +71,7 @@ export class OrdersComponent implements OnInit {
       await this.repository
               .getDataAsync<OrderItem>(apiAddress)
               .then(res => {
-                this.UpdateShoppingCart(res, quantity)
+                this.UpdateShoppingCart(res, +quantity)
               })
               .catch(error => {
                 this.errorHandler.handleError(error);
@@ -101,7 +104,7 @@ export class OrdersComponent implements OnInit {
     return this.ShoppingCartArray.some(x => x.itemID === item.itemID);
   }
 
-  private UpdateShoppingCart(item, quantity){
+  private UpdateShoppingCart(item: OrderItem, quantity: number){
     let total = item.price * quantity;
 
     let shippingorder = new ShoppingCart();

@@ -15,7 +15,7 @@
         <span style="width: 35%;" class="cell" data-label="name">{{item.name}}</span>
 		<span style="width: 20%;" class="cell" data-label="price">{{item.price | currency}}</span>
 		<span style="width: 35%;" class="cell"><input class="input" type="text" value="1" (input)="quantity=$event.target.value" #qty></span>
-		<span style="width: 10%;" class="cell"><button type="button" class="button is-light" (click)="addToShoppingCart(item, quantity); qty.value='1'; quantity='1';">Add to Order</button></span> 
+		<span style="width: 10%;" class="cell"><button type="button" class="button is-light" (click)="addToShoppingCart(item, quantity); qty.value=1; quantity=1;">Add to Order</button></span> 
 	  </div>
 	</div> 
 </div>
