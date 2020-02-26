@@ -60,7 +60,7 @@ export class OrdersComponent implements OnInit {
   public async addToShoppingCart(item: OrderItem, quantity: number){
     this.isHidden = true;
 
-    if (quantity === null || quantity == undefined ) {
+    if (quantity === null || quantity === undefined ) {
       quantity = 1;
     }
     
